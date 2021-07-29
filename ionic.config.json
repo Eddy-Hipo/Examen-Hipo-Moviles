@@ -1,5 +1,7 @@
 {
   "name": "examen-hipo",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

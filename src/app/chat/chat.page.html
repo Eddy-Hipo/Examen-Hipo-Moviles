@@ -1,9 +1,55 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>chat</ion-title>
+    <ion-title><strong>Chat para usuario: {{userName}}</strong></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <ion-list>
+    <ion-item *ngFor="let chat of Chats" lines="full">
+      <ion-label>
+        <strong>{{chat.userMessage}}</strong>
+        <p>{{chat.message}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
 </ion-content>
+
+<ion-footer class="ion-padding">
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Mensaje</ion-label>
+      <ion-input formControlName="message" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-button class="ion-margin-top" type="submit" expand="block" color="success">Enviar</ion-button>
+  
+    <ion-card class="ion-text-center" *ngIf="!isUploading && !isUploaded">
+      <ion-card-content>
+        <ion-button color="primary" size="medium">
+          <input type="file" (change)="uploadImage($event.target.files)" />
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- File upload progress bar -->
+    <div *ngIf="percentageVal | async as percentage">
+      Progreso: {{ percentage | number }}%
+      <ion-progress-bar value="{{ percentage / 100 }}"></ion-progress-bar>
+    </div>
+
+    <div *ngIf="trackSnapshot | async as snap">
+      Tamaño del archivo: {{ snap.totalBytes | formatFileSize }} 
+      
+      Datos transferidos: {{ snap.bytesTransferred | formatFileSize }}
+    </div> 
+
+
+    <ion-button (click)="ShowCords()" shape="round" fill="outline">
+      <ion-icon slot="start" name="locate"></ion-icon>
+        Enviar mi geolocalización
+      </ion-button>
+  </form>
+</ion-footer>
